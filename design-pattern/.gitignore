@@ -1,0 +1,17 @@
+bin
+lib
+tmp
+internal
+ipch
+.vs
+Debug
+Release
+
+*.suo
+*.user
+*.sdf
+*.opendb
+*.pch
+*.aps
+
+*.db
