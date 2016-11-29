@@ -1,30 +1,35 @@
 // 01abstractfactory.cpp : Defines the entry point for the console application.
-//
+//演示抽象工厂模式
 
 #include "stdafx.h"
 #include <string>
 #include <iostream>
 #include <memory>
+
+constexpr int MOBIKE_HANDLERBAR_LENGTH = 25;//摩拜单车 车把长度
+constexpr int OFOBIKE_HANDELERBAR_LENGTH = 30;//摩拜单车 车轮半径
+constexpr int MOBIKE_WHELL_RADIUS = 40;//ofo单车 车把长度
+constexpr int OFOBIKE_WHEEL_RADIUS = 43;//ofo单车 车轮半径
 class Handlerbar
 {
 public:
 	Handlerbar() {}
 	~Handlerbar() {}
-	virtual int GetLength() const { return 12; }
+	virtual int GetLength() const { return 0; }
 };
 class MobikeHandlerbar :public Handlerbar
 {
 public:
 	MobikeHandlerbar() {}
 	~MobikeHandlerbar() {}
-	virtual int GetLength() const { return 22; }
+	virtual int GetLength() const { return MOBIKE_HANDLERBAR_LENGTH; }
 };
 class OfobikeHandlerbar :public Handlerbar
 {
 public:
 	OfobikeHandlerbar() {}
 	~OfobikeHandlerbar() {}
-	virtual int GetLength() const { return 32; }
+	virtual int GetLength() const { return OFOBIKE_HANDELERBAR_LENGTH; }
 };
 
 class Wheel
@@ -32,7 +37,7 @@ class Wheel
 public:
 	Wheel() {}
 	~Wheel() {}
-	virtual int GetRadius() const { return 25; }
+	virtual int GetRadius() const { return 0; }
 };
 
 class MobikeWheel :public Wheel
@@ -40,14 +45,14 @@ class MobikeWheel :public Wheel
 public:
 	MobikeWheel() {}
 	~MobikeWheel() {}
-	virtual int GetRadius() const { return 30; }
+	virtual int GetRadius() const { return MOBIKE_WHELL_RADIUS; }
 };
 class OfobikeWheel :public Wheel
 {
 public:
 	OfobikeWheel() {}
 	~OfobikeWheel() {}
-	virtual int GetRadius() const { return 40; }
+	virtual int GetRadius() const { return OFOBIKE_WHEEL_RADIUS; }
 };
 
 class BikeFactory
