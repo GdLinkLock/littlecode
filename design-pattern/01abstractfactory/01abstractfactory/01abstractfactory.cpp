@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <vector>
 
 constexpr int MOBIKE_HANDLERBAR_LENGTH = 25;//摩拜单车 车把长度
 constexpr int OFOBIKE_HANDELERBAR_LENGTH = 30;//摩拜单车 车轮半径
@@ -58,8 +59,26 @@ public:
 class BikeFactory
 {
 public:
+	BikeFactory() {}
+	virtual ~BikeFactory()
+	{
+		for (auto& ptr : handlerbarCon)
+		{
+			delete ptr;
+		}
+		handlerbarCon.clear();
+		for (auto& ptr : wheelCon)
+		{
+			delete ptr;
+		}
+		wheelCon.clear();
+	}
 	virtual Handlerbar* ManufactureHandlerbar() { return nullptr; }
 	virtual Wheel* ManufactureWheel() { return nullptr; }
+
+protected:
+	std::vector<Handlerbar*> handlerbarCon;
+	std::vector<Wheel*> wheelCon;
 };
 
 class MobikeFactory :public BikeFactory
@@ -67,11 +86,15 @@ class MobikeFactory :public BikeFactory
 public:
 	virtual Handlerbar* ManufactureHandlerbar()
 	{
-		return new MobikeHandlerbar;
+		auto hb= new MobikeHandlerbar;
+		handlerbarCon.push_back(hb);
+		return hb;
 	}
 	virtual Wheel* ManufactureWheel()
 	{
-		return new MobikeWheel;
+		auto mw= new MobikeWheel;
+		wheelCon.push_back(mw);
+		return mw;
 	}
 };
 
@@ -80,11 +103,15 @@ class OfobikeFactory :public BikeFactory
 public:
 	virtual Handlerbar* ManufactureHandlerbar()
 	{
-		return new OfobikeHandlerbar;
+		auto hb = new OfobikeHandlerbar;
+		handlerbarCon.push_back(hb);
+		return hb;
 	}
 	virtual Wheel* ManufactureWheel()
 	{
-		return new OfobikeWheel;
+		auto ow = new OfobikeWheel;
+		wheelCon.push_back(ow);
+		return ow;
 	}
 };
 
@@ -101,10 +128,6 @@ public:
 
 		std::cout << "Mobike Handlerbar length=" << hb->GetLength() << std::endl;
 		std::cout << "Mobike Wheel radius=" << wl->GetRadius() << std::endl;
-
-		delete wl;
-		delete hb;
-		delete bf;
 	}
 	void MakeOfobike()
 	{
@@ -114,10 +137,6 @@ public:
 
 		std::cout << "Ofobike Handlerbar length=" << hb->GetLength() << std::endl;
 		std::cout << "Ofobike Wheel radius=" << wl->GetRadius() << std::endl;
-
-		delete wl;
-		delete hb;
-		delete bf;
 	}
 };
 
@@ -126,5 +145,6 @@ int main()
 	std::shared_ptr<Client> pclient(new Client);
 	pclient->MakeMobike();
 	pclient->MakeOfobike();
+	system("pause");
     return 0;
 }
