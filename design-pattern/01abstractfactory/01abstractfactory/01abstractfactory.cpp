@@ -1,5 +1,5 @@
-// 01abstractfactory.cpp : Defines the entry point for the console application.
-//��ʾ���󹤳�ģʽ
+﻿// 01abstractfactory.cpp : Defines the entry point for the console application.
+//演示抽象工厂模式
 
 #include "stdafx.h"
 #include <string>
@@ -7,15 +7,17 @@
 #include <memory>
 #include <vector>
 
-constexpr int MOBIKE_HANDLERBAR_LENGTH = 25;//Ħ�ݵ��� ���ѳ���
-constexpr int OFOBIKE_HANDELERBAR_LENGTH = 30;//Ħ�ݵ��� ���ְ뾶
-constexpr int MOBIKE_WHELL_RADIUS = 40;//ofo���� ���ѳ���
-constexpr int OFOBIKE_WHEEL_RADIUS = 43;//ofo���� ���ְ뾶
+constexpr int MOBIKE_HANDLERBAR_LENGTH = 25;//摩拜单车 车把长度
+constexpr int OFOBIKE_HANDELERBAR_LENGTH = 30;//摩拜单车 车轮半径
+constexpr int MOBIKE_WHELL_RADIUS = 40;//ofo单车 车把长度
+constexpr int OFOBIKE_WHEEL_RADIUS = 43;//ofo单车 车轮半径
+										//抽象产品-车把
 class Handlerbar
 {
 public:
 	Handlerbar() {}
 	~Handlerbar() {}
+	//自行车车把长度
 	virtual int GetLength() const { return 0; }
 };
 class MobikeHandlerbar :public Handlerbar
@@ -32,12 +34,13 @@ public:
 	~OfobikeHandlerbar() {}
 	virtual int GetLength() const { return OFOBIKE_HANDELERBAR_LENGTH; }
 };
-
+//抽象产品-车轮
 class Wheel
 {
 public:
 	Wheel() {}
 	~Wheel() {}
+	//自行车车轮半径
 	virtual int GetRadius() const { return 0; }
 };
 
@@ -55,7 +58,7 @@ public:
 	~OfobikeWheel() {}
 	virtual int GetRadius() const { return OFOBIKE_WHEEL_RADIUS; }
 };
-
+//抽象工厂
 class BikeFactory
 {
 public:
@@ -80,24 +83,24 @@ protected:
 	std::vector<Handlerbar*> handlerbarCon;
 	std::vector<Wheel*> wheelCon;
 };
-
+//工厂1：生产摩拜单车
 class MobikeFactory :public BikeFactory
 {
 public:
 	virtual Handlerbar* ManufactureHandlerbar()
 	{
-		auto hb= new MobikeHandlerbar;
+		auto hb = new MobikeHandlerbar;
 		handlerbarCon.push_back(hb);
 		return hb;
 	}
 	virtual Wheel* ManufactureWheel()
 	{
-		auto mw= new MobikeWheel;
+		auto mw = new MobikeWheel;
 		wheelCon.push_back(mw);
 		return mw;
 	}
 };
-
+//工厂1：生产ofo小黄车
 class OfobikeFactory :public BikeFactory
 {
 public:
@@ -114,8 +117,6 @@ public:
 		return ow;
 	}
 };
-
-
 
 class Client
 {
@@ -146,5 +147,5 @@ int main()
 	pclient->MakeMobike();
 	pclient->MakeOfobike();
 	system("pause");
-    return 0;
+	return 0;
 }
