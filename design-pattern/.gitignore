@@ -15,3 +15,5 @@ Release
 *.aps
 
 *.db
+
+*.ldb
